@@ -14,6 +14,13 @@ spec:
       labels:
         app: backend
     spec:
+      initContainers:
+        - name: wait-for-postgres
+          image: postgres:15-alpine
+          command:
+            - sh
+            - -c
+            - until pg_isready -h postgres-service -p 5432 -U {{ .Values.postgres.user }}; do echo "Waiting for postgres..."; sleep 2; done
       containers:
         - name: backend
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
