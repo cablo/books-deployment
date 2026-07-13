@@ -17,3 +17,14 @@ Aktualni `books-app.yml` se odkazuje na spravne docker images v Git Hub Containe
    Ingress spravne routuje vse zacinajici na `/api` do `backend-service` a ostatni do `frontend-service`.
 
 > Pokud je potreba menit neco v Ingress, tak je nejlepsi restartovat cely cluster a zacit bodem 1.
+
+
+## Pouziti s ArgoCD
+
+1. Nastartovat k8s a nainstalovat Ingress `ingress-install.bat`
+1. Nainstalovat ArgoCD `argocd-install.bat` (v k9s je pak videt namespace argocd)
+1. Spustit ArgoCD tunel `argocd-tunnel.ps1`, ktery zpristupni jejich UI
+1. Otevrit jejich UI podle vypsane url a loginu 
+1. Spustit App v ArgoCD `argocd-set-app.bat` -> zalozi to aplikaci v ArgoCD, ktera uz se synchronizuje s Gitem a sama se opravuje
+1. Otestovani SelfHeal -> spustit `k9s`, zobrazit Deployment Backendu (:, deploy, tab, enter) a na backendu stisknout `s` a zmenit pocet replik. Na chvili se zmeni, ale pak se vrati do stavu ArgaCD   
+
