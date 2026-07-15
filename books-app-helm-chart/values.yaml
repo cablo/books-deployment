@@ -6,6 +6,7 @@ postgres:
   user: app_user
   password: app_password
   storage: 1Gi
+  storageClassName: ""
 
 backend:
   image:

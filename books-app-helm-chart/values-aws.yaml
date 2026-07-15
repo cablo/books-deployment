@@ -1,0 +1,2 @@
+postgres:
+  storageClassName: gp2

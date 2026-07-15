@@ -1,4 +1,4 @@
-call eksctl create cluster --name books-app-eks --region eu-north-1 --node-type t3.medium --nodes 2 --nodes-min 1 --nodes-max 2
+eksctl create cluster --name books-app-eks --region eu-north-1 --node-type t3.medium --nodes 2 --nodes-min 1 --nodes-max 2
 rem Pri vytvareni se podivat do CloudFormation, ktery vytvari cely cluster (spravna zona)
 
 
@@ -20,7 +20,7 @@ call kubectl get service -n ingress-nginx ingress-nginx-controller
 
 
 
-
+helm install books-app-helm . -f ./values-aws.yaml
 
 
 

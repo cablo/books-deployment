@@ -13,6 +13,7 @@ spec:
     helm:
       valueFiles:
         - values.yaml
+        - values-aws.yaml
 #      parameters:
 #        - name: backend.replicas
 #          value: "10"
