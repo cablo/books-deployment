@@ -1,1 +1,0 @@
-call eksctl delete cluster --name books-app-eks --region eu-north-1

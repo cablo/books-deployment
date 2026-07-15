@@ -23,3 +23,7 @@
    Pripojit se do GUI ArgoCD  
 1. Aktualizovat aplikaci do ArgoCD, ktera se pripoji do Gitu a spusti Helm chart odtamtud:  
    `kubectl apply -f books-app-argocd/argocd-books-app-aws.yml`  
+
+### Smazani clusteru
+>`eksctl delete cluster --name books-app-eks --region eu-north-1`  
+> Smazat Volumes v EC2 
