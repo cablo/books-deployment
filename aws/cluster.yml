@@ -1,0 +1,21 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: books-app-eks
+  region: eu-central-1
+  version: "1.30"
+
+# Explicitně vytvoříme vyváženou síť s NAT Gateway, aby nody měly internet
+vpc:
+  nat:
+    gateway: Single # Stačí jedna pro úsporu peněz, ale zajistí bezproblémové spojení
+
+managedNodeGroups:
+  - name: books-nodes
+    instanceType: t3.medium
+    desiredCapacity: 2
+    minSize: 1
+    maxSize: 2
+    volumeSize: 20
+    privateNetworking: true # Nody budou bezpečně v privátní síti
