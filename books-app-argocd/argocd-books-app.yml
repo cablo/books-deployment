@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: books-app-argocd
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/cablo/books-deployment.git'
+    targetRevision: HEAD
+    path: books-app-helm-chart
+
+    helm:
+      valueFiles:
+        - values.yaml
+        - values-aws.yaml
+#      parameters:
+#        - name: backend.replicas
+#          value: "10"
+  destination:
+    # running k8s
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true # Smaže z k8s zdroje, které odebereš z Gitu
+      selfHeal: true # Opraví ruční změny v clusteru zpět podle Gitu
+#    createNamespace: true # Vytvoří cílový namespace, pokud neexistuje
