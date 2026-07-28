@@ -1,4 +1,32 @@
-# Jak nainstalovat do AWS EKS
+# Jak nainstalovat do Azure AKS
+
+Zacne se vytvorenim Resource Group:
+az group create --name books-app-resource --location polandcentral
+
+
+Chceme pouzivat k8s:
+az provider register --namespace Microsoft.ContainerService
+
+az aks create --resource-group books-app-resource --name books-app-cluster --node-count 1 --node-vm-size Standard_B2s_v2 --generate-ssh-keys
+
+propojeni kubectl:
+az aks get-credentials --resource-group books-app-resource --name books-app-cluster
+kubectl cluster-info
+kubectl get nodes
+
+Ingress:
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+atd...
+
+ArgoCD
+
+
+
+
+
+
+
 
 1. Spustit instalaci maleho clusteru  
    `eksctl create cluster --name books-app-eks --region eu-north-1 --node-type t3.medium --nodes 2 --nodes-min 1 --nodes-max 2`  
@@ -6,7 +34,6 @@
    Sledovat CloudFormation > Stacks na webu, jak se to vytvari. Mel by nabehnout EKS Cluster a 2x EC2 instance.  
 1. Po vytvoreni overit presmerovani kubectl:  
    `kubectl cluster-info`   
-   `kubectl get nodes`   
    Nebo presmerovat rucne:   
    `aws eks update-kubeconfig --region eu-north-1 --name books-app-eks`
 1. Nainstalovat Ingress Nginx  
