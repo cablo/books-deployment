@@ -28,3 +28,7 @@ Aktualni `books-app.yml` se odkazuje na spravne docker images v Git Hub Containe
 1. Spustit App v ArgoCD `argocd-set-app.bat` -> zalozi to aplikaci v ArgoCD, ktera uz se synchronizuje s Gitem a sama se opravuje
 1. Otestovani SelfHeal -> spustit `k9s`, zobrazit Deployment Backendu (:, deploy, tab, enter) a na backendu stisknout `s` a zmenit pocet replik. Na chvili se zmeni, ale pak se vrati do stavu ArgaCD   
 
+## Smazani k8s z Docker Desktop
+`docker system prune -a --volumes`
+
+

@@ -11,11 +11,15 @@ postgres:
 backend:
   image:
     repository: ghcr.io/cablo/books-be
-    tag: sha-29642b2
+    tag: sha-747eae5
   replicas: 1
   port: 8080
   servicePort: 8001
   datasource:
+    url: "jdbc:postgresql://postgres-service:5432/app_db"
+    username: app_user
+    password: app_password
+  r2dbc:
     url: "r2dbc:postgresql://postgres-service:5432/app_db"
     username: app_user
     password: app_password

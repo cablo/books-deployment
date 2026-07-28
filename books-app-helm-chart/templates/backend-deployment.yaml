@@ -33,3 +33,9 @@ spec:
               value: {{ .Values.backend.datasource.username }}
             - name: DATASOURCE_PASSWORD
               value: {{ .Values.backend.datasource.password }}
+            - name: R2DBC_DATASOURCE_URL
+              value: {{ .Values.backend.r2dbc.url }}
+            - name: R2DBC_DATASOURCE_USERNAME
+              value: {{ .Values.backend.r2dbc.username }}
+            - name: R2DBC_DATASOURCE_PASSWORD
+              value: {{ .Values.backend.r2dbc.password }}
