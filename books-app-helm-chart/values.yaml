@@ -12,7 +12,7 @@ backend:
   image:
     repository: ghcr.io/cablo/books-be
     tag: sha-747eae5
-  replicas: 10
+  replicas: 1
   port: 8080
   servicePort: 8001
   datasource:
