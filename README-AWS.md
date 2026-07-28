@@ -9,16 +9,16 @@
    `kubectl get nodes`   
    Nebo presmerovat rucne:   
    `aws eks update-kubeconfig --region eu-north-1 --name books-app-eks`
-1. Nainstalovat Ingress Nginx  
-   `helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx`  
-   `helm repo update`  
-   `helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace`  
-   `kubectl get service -n ingress-nginx ingress-nginx-controller`
 1. Nastravit vsem Workerum (EC2 instance) roli, aby mohly pristupovat k EBS disku:    
    Vyhledat nazev IAM role: Otevrit detail Workeru z EC2 -> Security -> IAM Role -> zkopirovat jeji nazev a vlozit do nasledujiciho prikazu 
    `aws iam attach-role-policy --role-name <<<eksctl-books-app-eks-nodegroup-ngXXXXXXXXX>>> --policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy`
 1. Nainstalovat vlastni ovladac EBS disku pro Postgress:  
    `eksctl create addon --name aws-ebs-csi-driver --cluster books-app-eks --region eu-north-1`
+1. Nainstalovat Ingress Nginx  
+   `helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx`  
+   `helm repo update`  
+   `helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace`  
+   `kubectl get service -n ingress-nginx ingress-nginx-controller`
 1. Nainstalovat ArgoCD stejne jako na lokalu, spustit:  
    `kubectl create namespace argocd`  
    `kubectl apply --server-side -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml`
