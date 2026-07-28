@@ -1,60 +1,19 @@
 # Jak nainstalovat do Azure AKS
 
-Zacne se vytvorenim Resource Group:
-az group create --name books-app-resource --location polandcentral
-
-
-Chceme pouzivat k8s:
-az provider register --namespace Microsoft.ContainerService
-
-az aks create --resource-group books-app-resource --name books-app-cluster --node-count 1 --node-vm-size Standard_B2s_v2 --generate-ssh-keys
-
-propojeni kubectl:
-az aks get-credentials --resource-group books-app-resource --name books-app-cluster
-kubectl cluster-info
-kubectl get nodes
-
-Ingress:
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo update
-atd...
-
-ArgoCD
-
-
-
-
-
-
-
-
-1. Spustit instalaci maleho clusteru  
-   `eksctl create cluster --name books-app-eks --region eu-north-1 --node-type t3.medium --nodes 2 --nodes-min 1 --nodes-max 2`  
-   Nastavit region na "eu-north-1"
-   Sledovat CloudFormation > Stacks na webu, jak se to vytvari. Mel by nabehnout EKS Cluster a 2x EC2 instance.  
-1. Po vytvoreni overit presmerovani kubectl:  
-   `kubectl cluster-info`   
-   Nebo presmerovat rucne:   
-   `aws eks update-kubeconfig --region eu-north-1 --name books-app-eks`
-1. Nainstalovat Ingress Nginx  
-   `helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx`  
-   `helm repo update`  
-   `helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace`  
-   `kubectl get service -n ingress-nginx ingress-nginx-controller`
-1. Nastravit vsem Workerum (EC2 instance) roli, aby mohly pristupovat k EBS disku:    
-   Vyhledat nazev IAM role: Otevrit detail Workeru z EC2 -> Security -> IAM Role -> zkopirovat jeji nazev a vlozit do nasledujiciho prikazu 
-   `aws iam attach-role-policy --role-name <<<eksctl-books-app-eks-nodegroup-ngXXXXXXXXX>>> --policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy`
-1. Nainstalovat vlastni ovladac EBS disku pro Postgress:  
-   `eksctl create addon --name aws-ebs-csi-driver --cluster books-app-eks --region eu-north-1`
-1. Nainstalovat ArgoCD stejne jako na lokalu, spustit:  
-   `kubectl create namespace argocd`  
-   `kubectl apply --server-side -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml`
-1. Spustit tunel do ArgoCD a zjistit login do ArgoCD:  
-   `argocd-tunnel.ps1`  
-   Pripojit se do GUI ArgoCD  
-1. Aktualizovat aplikaci do ArgoCD, ktera se pripoji do Gitu a spusti Helm chart odtamtud:  
-   `kubectl apply -f books-app-argocd/argocd-books-app-aws.yml`  
-1. Otevrit si aplikaci: v ArgoCD najit "frontend-ingress" a kliknout na ikonu s sipkou  
+1. Zacne se vytvorenim Resource Group:
+   `az group create --name books-app-resource --location polandcentral`
+1. Nastavit, ze chceme pouzivat k8s:  
+   `az provider register --namespace Microsoft.ContainerService`
+1. Vytvorit cluster:  
+   `az aks create --resource-group books-app-resource --name books-app-cluster --node-count 1 --node-vm-size Standard_B2s_v2 --generate-ssh-keys`
+1. Propojeni kubectl:    
+   `az aks get-credentials --resource-group books-app-resource --name books-app-cluster`   
+   `kubectl cluster-info`  
+   `kubectl get nodes`
+1. Instalace Ingress: stejne helm prikazy jako v AWS
+1. Instalace ArgoCD: stejne jako v AWS - instalace, tunel, gui  
+1. Nainstalovani aplikace do Arga (do aplikace se vleze pres gui frontend-ingress a ikonka s sipkou):  
+   `kubectl apply -f books-app-argocd/argocd-books-app-azure.yml`
 
 ### Smazani clusteru
 >`eksctl delete cluster --name books-app-eks --region eu-north-1`  
