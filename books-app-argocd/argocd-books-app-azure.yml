@@ -14,9 +14,9 @@ spec:
       valueFiles:
         - values.yaml
         - values-azure.yaml
-      parameters:
-        - name: backend.replicas
-          value: "10"
+#      parameters:
+#        - name: backend.replicas
+#          value: "10"
   destination:
     # running k8s
     server: 'https://kubernetes.default.svc'
