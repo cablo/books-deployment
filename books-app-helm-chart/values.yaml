@@ -11,7 +11,7 @@ postgres:
 backend:
   image:
     repository: ghcr.io/cablo/books-be
-    tag: sha-647a7ba
+    tag: sha-29642b2
   replicas: 1
   port: 8080
   servicePort: 8001
